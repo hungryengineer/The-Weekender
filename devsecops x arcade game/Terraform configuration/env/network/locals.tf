@@ -1,6 +1,6 @@
 locals {
   tags ={
-    Name = "vpc-arcade"
+    Name = "arcade-infra"
     Project = "python-arcade"
 }
 }
