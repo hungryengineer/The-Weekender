@@ -21,3 +21,13 @@ output "nat_id" {
   value = module.arcade-nat.nat_id
 
 }
+
+########rt########
+
+output "rt_id" {
+  value = module.arcade-rt[*].rt_id
+}
+
+output "rta_id" {
+  value = module.arcade-rta[*].rta_id
+} 
