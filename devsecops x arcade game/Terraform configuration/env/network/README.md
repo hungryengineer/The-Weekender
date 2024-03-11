@@ -3,6 +3,6 @@ i) VPC *
 ii) 1 public, 1 private subnet *
 iii) IGW*
 iv) NAT*
-v) Route table and associated routes
+v) Route table and associated routes*
 vi) NACL
 vii) NSG
