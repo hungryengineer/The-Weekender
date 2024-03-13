@@ -8,3 +8,8 @@ variable "cidr_block_snet" {
   
 }
 
+######route_table#####
+
+variable "destination_cidr_block" {
+  
+}

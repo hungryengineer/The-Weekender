@@ -55,6 +55,7 @@ module "arcade-rt" {
 
     count           = length(var.cidr_block_snet)
     cidr_block_snet = element(var.cidr_block_snet, count.index)
+    destination_cidr_block = element(var.destination_cidr_block, count.index)
     vpc_id          = module.arcade-vpc[0].vpc_id
     gateway_id      = module.arcade-igw[0].igw_id
   tags = {
