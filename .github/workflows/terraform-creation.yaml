@@ -2,7 +2,7 @@ name: 'Terraform deployment'
 
 on:
   push:
-    branches: [ "pre-master" ]
+    # branches: [ "pre-master" ]
   pull_request:
 
 permissions:
