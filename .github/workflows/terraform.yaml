@@ -31,7 +31,7 @@ jobs:
 
     # Change directory to Terraform folder
     - name: Change to Terraform directory
-      run: cd ../../env/network
+      run: cd ../../devsecops_x_arcade_game/Terraform_configuration/env/network/
 
     # Install Terraform
     - name: Setup Terraform
