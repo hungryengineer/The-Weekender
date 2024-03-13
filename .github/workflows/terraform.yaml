@@ -29,6 +29,10 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    # Change directory to Terraform folder
+    - name: Change to Terraform directory
+      run: cd ../../env/network
+
     # Install Terraform
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
