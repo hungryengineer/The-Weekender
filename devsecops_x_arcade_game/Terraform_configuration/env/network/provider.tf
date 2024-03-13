@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "aws" {
-#   region  = "ap-south-1"
+  region  = "ap-south-1"
 #   shared_config_files      = ["/c/Users/kumaranshuman/.aws/config"]
 #   shared_credentials_files = ["/c/Users/kumaranshuman/.aws/credentials"]
 }
