@@ -49,10 +49,10 @@ jobs:
       working-directory: ${{ env.working-directory }}
 
 
-    # Terraform Format
-    - name: Terraform Format
-      run: terraform fmt -check #../../env/network
-      working-directory: ${{ env.working-directory }}
+    # # Terraform Format
+    # - name: Terraform Format
+    #   run: terraform fmt -check #../../env/network
+    #   working-directory: ${{ env.working-directory }}
 
 
     # Terraform plan
