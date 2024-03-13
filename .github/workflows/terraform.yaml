@@ -13,6 +13,10 @@ jobs:
     name: 'Terraform'
     runs-on: ubuntu-latest
     environment: playground
+    
+    env:       
+      working-directory: devsecops_x_arcade_game/Terraform_configuration/env/network
+
 
     defaults:
       run:
@@ -29,10 +33,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    # Change directory to Terraform folder
-    - name: Change to Terraform directory
-      run: cd ../../devsecops_x_arcade_game/Terraform_configuration/env/network/
-
     # Install Terraform
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v1
@@ -42,6 +42,8 @@ jobs:
     # Terraform init
     - name: Terraform Init
       run: terraform init #../../env/network
+      working-directory: ${{ env.working-directory }}
+
 
     # Terraform Format
     - name: Terraform Format
