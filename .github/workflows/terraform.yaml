@@ -27,11 +27,11 @@ jobs:
         shell: bash
 
     steps:
-    - name: Set up environment variables
-      run: |
-          echo "AWS_ACCESS_KEY_ID=your-access-key-id" >> $GITHUB_ENV
-          echo "AWS_SECRET_ACCESS_KEY=your-secret-access-key" >> $GITHUB_ENV
-          echo "AWS_DEFAULT_REGION=your-default-region" >> $GITHUB_ENV
+    # - name: Set up environment variables
+    #   run: |
+    #       echo "AWS_ACCESS_KEY_ID=your-access-key-id" >> $GITHUB_ENV
+    #       echo "AWS_SECRET_ACCESS_KEY=your-secret-access-key" >> $GITHUB_ENV
+    #       echo "AWS_DEFAULT_REGION=your-default-region" >> $GITHUB_ENV
     
     # Repo checkout
     - name: Checkout
