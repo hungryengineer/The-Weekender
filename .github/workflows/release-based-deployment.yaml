@@ -61,7 +61,7 @@ jobs:
 
     # Trigger Terraform Deployment on Release Creation
     - name: Trigger Terraform Deployment
-      if: ${{ github.event_name == 'release' && github.event.action == 'created' }}
+      # if: ${{ github.event_name == 'release' && github.event.action == 'created' }}
       run: |
         terraform init
         terraform plan -input=false
