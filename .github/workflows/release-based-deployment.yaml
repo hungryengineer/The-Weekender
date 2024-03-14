@@ -54,14 +54,14 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: v1.0.0 
-        release_name: Release v1.0.0
+        tag_name: v1.0.${{github.run_number}} 
+        release_name: Release v1.0.${{github.run_number}}
         draft: false
         prerelease: false
 
     # Trigger Terraform Deployment on Release Creation
     - name: Trigger Terraform Deployment
-      if: github.event_name == 'release' && github.event.action == 'created'
+      if: ${{ github.event_name == 'release' && github.event.action == 'created' }}
       run: |
         terraform init
         terraform plan -input=false
