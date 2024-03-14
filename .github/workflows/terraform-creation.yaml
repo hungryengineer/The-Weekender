@@ -1,9 +1,78 @@
+# name: 'Terraform deployment'
+
+# on:
+#   push:
+#     # branches: [ "pre-master" ]
+#   pull_request:
+
+# permissions:
+#   contents: read
+
+# jobs:
+#   terraform:
+#     name: 'Terraform'
+#     runs-on: ubuntu-latest
+#     environment: playground
+    
+#     env:       
+#       working-directory: devsecops_x_arcade_game/Terraform_configuration/env/network
+#       TF_CLOUD_ORGANIZATION: "anshuman-test-org"
+#       TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
+#       TF_WORKSPACE: "arcade-workspace"
+#       CONFIG_DIRECTORY: "./"
+
+
+#     defaults:
+#       run:
+#         shell: bash
+
+#     steps:
+#     - name: Set up environment variables
+#       run: |
+#           echo "AWS_ACCESS_KEY_ID=your-access-key-id" >> ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           echo "AWS_SECRET_ACCESS_KEY=your-secret-access-key" >> ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    
+#     # Repo checkout
+#     - name: Checkout
+#       uses: actions/checkout@v3
+
+#     # Aws IAM auth
+#     - name: Configure AWS Credentials Action For GitHub Actions
+#       uses: aws-actions/configure-aws-credentials@v1-node16
+#       with:
+#         aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#         aws-region: ap-south-1
+
+#     # Install Terraform
+#     - name: Setup Terraform
+#       uses: hashicorp/setup-terraform@v1
+#       with:
+#         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+#     # Terraform init
+#     - name: Terraform Init
+#       run: terraform init
+#       working-directory: ${{ env.working-directory }}
+
+
+#     # Terraform plan
+#     - name: Terraform Plan
+#       run: terraform plan -input=false
+#       working-directory: ${{ env.working-directory }}
+
+    
+#     # Terraform apply
+#     - name: Terraform Apply
+#       # if: github.ref == 'refs/heads/"pre-master"' && github.event_name == 'push'
+#       run: terraform apply -auto-approve -input=false
+#       working-directory: ${{ env.working-directory }}
+
 name: 'Terraform deployment'
 
 on:
-  push:
-    # branches: [ "pre-master" ]
-  pull_request:
+  release:
+    types: [created]
 
 permissions:
   contents: read
@@ -36,6 +105,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    # Aws IAM auth
     - name: Configure AWS Credentials Action For GitHub Actions
       uses: aws-actions/configure-aws-credentials@v1-node16
       with:
@@ -43,27 +113,23 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ap-south-1
 
-    # Install Terraform
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v1
+    # Create GitHub Release
+    - name: Create GitHub Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+        tag_name: v1.0.0 
+        release_name: Release v1.0.0
+        draft: false
+        prerelease: false
 
-    # Terraform init
-    - name: Terraform Init
-      run: terraform init #../../env/network
+    # Trigger Terraform Deployment on Release Creation
+    - name: Trigger Terraform Deployment
+      if: github.event_name == 'release' && github.event.action == 'created'
+      run: |
+        terraform init
+        terraform plan -input=false
+        terraform apply -auto-approve -input=false
       working-directory: ${{ env.working-directory }}
-
-
-    # Terraform plan
-    - name: Terraform Plan
-      run: terraform plan -input=false #../../env/network
-      working-directory: ${{ env.working-directory }}
-
-    
-    # Terraform apply
-    - name: Terraform Apply
-      # if: github.ref == 'refs/heads/"pre-master"' && github.event_name == 'push'
-      run: terraform apply -auto-approve -input=false #../../env/network
-      working-directory: ${{ env.working-directory }}
-

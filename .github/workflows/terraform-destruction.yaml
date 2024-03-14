@@ -36,6 +36,7 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
+    # Aws IAM auth
     - name: Configure AWS Credentials Action For GitHub Actions
       uses: aws-actions/configure-aws-credentials@v1-node16
       with:
@@ -51,19 +52,19 @@ jobs:
 
     # Terraform init
     - name: Terraform Init
-      run: terraform init #../../env/network
+      run: terraform init
       working-directory: ${{ env.working-directory }}
 
 
     # Terraform plan
     - name: Terraform Plan
-      run: terraform plan -input=false #../../env/network
+      run: terraform plan -input=false
       working-directory: ${{ env.working-directory }}
 
     
     # Terraform apply
     - name: Terraform Destroy
       # if: github.ref == 'refs/heads/"pre-master"' && github.event_name == 'push'
-      run: terraform destroy -auto-approve -input=false #../../env/network
+      run: terraform destroy -auto-approve -input=false
       working-directory: ${{ env.working-directory }}
 
