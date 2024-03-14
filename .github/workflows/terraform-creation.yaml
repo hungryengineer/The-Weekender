@@ -72,8 +72,8 @@
 name: 'Terraform deployment'
 
 on:
-  release:
-    types: [created]
+  push:
+    branches: [ "pre-master" ]
 
 permissions:
   contents: read
