@@ -57,7 +57,7 @@ jobs:
       working-directory: ${{ env.working-directory }}
     
     - name: Debug Terraform Environment
-      run: terraform env 
+      run: printenv | grep TF_VAR 
       working-directory: ${{ env.working-directory }}
 
 
