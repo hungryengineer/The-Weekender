@@ -4,4 +4,7 @@ resource "aws_vpc" "arcade" {
   instance_tenancy = "default"
 
   tags = var.tags
+  lifecycle {
+    create_before_destroy = false
+  }
 }

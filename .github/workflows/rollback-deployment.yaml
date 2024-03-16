@@ -56,10 +56,10 @@ jobs:
         terraform apply -auto-approve -input=false -var "release_tag=${{ env.PREVIOUS_RELEASE }}"
       working-directory: ${{ env.working-directory }}
     
-    - name: Debug Terraform Environment
-      run: |
-        printenv | grep TF_VAR
-        exit 1
-      working-directory: ${{ env.working-directory }}
+    # - name: Debug Terraform Environment
+    #   run: |
+    #     printenv | grep TF_VAR
+    #     exit 1
+    #   working-directory: ${{ env.working-directory }}
 
 
