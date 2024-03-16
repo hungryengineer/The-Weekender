@@ -57,7 +57,7 @@ jobs:
       working-directory: ${{ env.working-directory }}
     
     - name: Debug Terraform Environment
-      run: terraform env
+      run: terraform env 
       working-directory: ${{ env.working-directory }}
 
 
