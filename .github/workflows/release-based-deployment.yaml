@@ -35,11 +35,11 @@ jobs:
           echo "AWS_ACCESS_KEY_ID=your-access-key-id" >> ${{ secrets.AWS_ACCESS_KEY_ID }}
           echo "AWS_SECRET_ACCESS_KEY=your-secret-access-key" >> ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     
-    # Repo checkout
+    #Repo checkout
     - name: Checkout
       uses: actions/checkout@v3
 
-    # Aws IAM auth
+    #Aws IAM auth
     - name: Configure AWS Credentials Action For GitHub Actions
       uses: aws-actions/configure-aws-credentials@v1-node16
       with:
@@ -47,7 +47,7 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: ap-south-1
 
-    # Create GitHub Release
+    #Create GitHub Release
     - name: Create GitHub Release
       id: create_release
       uses: actions/create-release@v1
@@ -65,7 +65,7 @@ jobs:
       with:
         cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
 
-    # Trigger Terraform Deployment on Release Creation
+    #Trigger Terraform Deployment on Release Creation
     - name: Trigger Terraform Deployment
       # if: ${{ github.event_name == 'release' && github.event.action == 'created' }}
       run: |
