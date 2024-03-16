@@ -55,4 +55,9 @@ jobs:
         terraform plan -input=false -var "release_tag=${{ env.PREVIOUS_RELEASE }}"
         terraform apply -auto-approve -input=false -var "release_tag=${{ env.PREVIOUS_RELEASE }}"
       working-directory: ${{ env.working-directory }}
+    
+    - name: Debug Terraform Environment
+      run: terraform env
+      working-directory: ${{ env.working-directory }}
+
 
