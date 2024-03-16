@@ -1,0 +1,33 @@
+name: 'Rollback Deployment'
+
+on:
+  push:
+    branches: [ "pre-master" ]
+  workflow_dispatch: 
+
+jobs:
+  rollback:
+    name: 'Rollback Deployment'
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    - name: Fetch Previous Release
+      id: get_release
+      run: |
+        # Use GitHub API or available actions to fetch previous release details
+        # Store the previous release tag or version in an environment variable
+        echo "::set-env name=PREVIOUS_RELEASE::v1.0.3" # Example value, replace with actual previous release tag
+
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+    - name: Trigger Rollback Deployment
+      run: |
+        terraform init
+        terraform plan -input=false -var "release_tag=${{ env.PREVIOUS_RELEASE }}"
+        terraform apply -auto-approve -input=false -var "release_tag=${{ env.PREVIOUS_RELEASE }}"
