@@ -19,7 +19,7 @@ jobs:
       TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
       TF_WORKSPACE: "arcade-workspace"
       CONFIG_DIRECTORY: "./"
-      PREVIOUS_RELEASE: v1.0.3
+      PREVIOUS_RELEASE: v1.0.9
 
     
     defaults:
