@@ -6,7 +6,7 @@ output "vpc_id" {
 ######subnets######
 
 output "subnet_id" {
-  value = module.arcade-subnet[*].subnet_id[*]
+  value = module.arcade-subnet[*].subnet_id#[*]
 }
 
 ######igw#######

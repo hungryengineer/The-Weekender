@@ -20,3 +20,14 @@ viii) Trivy scan
 ix) OWASP 
 x) SonarQube
 xi) Prometheus and Grafana
+
+_________________________________________________________
+
+Although we have end-to-end pipelines for creating and destroying infrastructure, however if need arises to manually create the infra then below pattern/sequence needs to be followed due to directed acyclic dependencies amongst resources:
+
+Go to env folder:-
+Step1. Create resources in network (init, plan, apply)
+Step2. Create resources in iam (init, plan, apply)
+Step3. Create resources in k8's (init, plan, apply)
+
+To destroy the resources, reverse sequence is to be followed. If the sequence is not adhered to the the tf process will either result in error and fail or some resources might be orphaned and then would have to be deleted manually.

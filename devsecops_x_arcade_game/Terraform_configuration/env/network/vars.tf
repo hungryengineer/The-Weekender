@@ -8,6 +8,9 @@ variable "cidr_block_snet" {
   
 }
 
+variable "availability_zone" {
+  
+}
 ######route_table#####
 
 variable "destination_cidr_block" {

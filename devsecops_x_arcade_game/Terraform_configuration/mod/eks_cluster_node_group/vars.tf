@@ -1,5 +1,5 @@
 variable "node_group_name" {
-  
+  type = list(string)
 }
 
 variable "eks_name" {
@@ -11,11 +11,6 @@ variable "node_role_arn" {
 }
 
 variable "subnet_ids" {
-  
-}
-
-variable "scaling_config" {
-  
 }
 
 variable "scaling_config" {
@@ -32,6 +27,14 @@ variable "scaling_config" {
     }
   }
 }
+# variable "scaling_config" {
+#   type = bool
+# }
+# variable "desired_size" {}
+# variable "max_size" {}
+# variable "min_size" {}
+
+
 
 variable "update_config" {
   type = map(object({
@@ -43,6 +46,11 @@ variable "update_config" {
     }
   }
 }
+# variable "update_config" {
+#   type = bool  
+# }
+# variable "max_unavailable" {}
+
 
 
 

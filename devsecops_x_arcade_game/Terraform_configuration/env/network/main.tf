@@ -10,10 +10,11 @@ module "arcade-vpc" {
 ######subnets#####
 
 module "arcade-subnet" {
-    source          = "../../mod/subnets"
-    count           = length(var.cidr_block_snet)
-    vpc_id          = module.arcade-vpc[0].vpc_id
-    cidr_block_snet = element(var.cidr_block_snet, count.index)
+    source            = "../../mod/subnets"
+    count             = length(var.cidr_block_snet)
+    vpc_id            = module.arcade-vpc[0].vpc_id
+    cidr_block_snet   = element(var.cidr_block_snet, count.index)
+    availability_zone = element(var.availability_zone, count.index)
     tags = {
         Name = count.index == 0 ? "private-subnet-${local.tags.Name}" : "public-subnet-${local.tags.Name}"
     }    
