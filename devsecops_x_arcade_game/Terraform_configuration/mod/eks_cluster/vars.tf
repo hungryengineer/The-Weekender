@@ -1,11 +1,11 @@
 variable "eks_name" {
-  
+  type = list(string)
 }
 
 variable "role_arn" {
   
 }
 
-variable "cidr_block_snet" {
+variable "subnet_ids" {
   
 }

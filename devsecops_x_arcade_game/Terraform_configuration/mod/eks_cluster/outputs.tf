@@ -3,5 +3,5 @@ output "eks_endpoint" {
 }
 
 output "eks_kubeconfig-certificate-authority-data" {
-  value = aws_eks_cluster.arcade-eks.certificate_authority[*].data
+  value = aws_eks_cluster.arcade-eks[*].data
 }

@@ -4,9 +4,9 @@ resource "aws_eks_cluster" "arcade-eks" {
   role_arn = var.role_arn
 
   dynamic "vpc_config"{
-    for_each = var.cidr_block_snet
+    for_each = var.subnet_ids
     content {
-        subnet_ids = element(var.cidr_block_snet, count.index)
+        subnet_ids = element(var.subnet_ids, count.index)
     }
   }
 

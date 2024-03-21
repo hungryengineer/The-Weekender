@@ -5,6 +5,6 @@ resource "aws_vpc" "arcade" {
 
   tags = var.tags
   lifecycle {
-    prevent_destroy = true 
+    prevent_destroy = false 
   }
 }
