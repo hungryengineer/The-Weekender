@@ -3,7 +3,7 @@ resource "aws_eks_node_group" "arcade_eks_node_group" {
   cluster_name    = element(var.eks_name, 0)
   node_group_name = element(var.node_group_name, count.index)
   node_role_arn   = element(var.node_role_arn, count.index)
-  subnet_ids      = element(var.subnet_ids, count.index)
+  subnet_ids      = var.subnet_ids
 
   dynamic "scaling_config" {
     for_each = var.scaling_config

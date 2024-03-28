@@ -31,4 +31,5 @@ vpc_config = {
     subnet_ids   = []
   }
 }
-subnet_ids = ["subnet-0bf029d652530abf5","subnet-09504fa17148de1d8",]
+#needs to be updated if new subnets are created.
+subnet_ids = ["subnet-03dbaa446f970f6c8","subnet-04b6e8a06b782b3f5",]
