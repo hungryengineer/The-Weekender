@@ -7,10 +7,10 @@ This is an end to end  DevSecOps implementation with below components:
 i) Application code
 ii) Pytest
 iii) Dockerfile
+iv) Github packages
 
 2. DevSecOps tools:
 i) EKS cluster
-ii) ECR
 iii) Terraform
 iv) Terratest
 v) Checkov
@@ -31,3 +31,5 @@ Step2. Create resources in iam (init, plan, apply)
 Step3. Create resources in k8's (init, plan, apply)
 
 To destroy the resources, reverse sequence is to be followed. If the sequence is not adhered to the the tf process will either result in error and fail or some resources might be orphaned and then would have to be deleted manually.
+
+* for some reasons datasources can't populated the subnet id field required for eks provisioning, the workaround is to manually add the subnets 

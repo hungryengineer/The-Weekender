@@ -41,3 +41,15 @@ variable "update_config" {
 #   type = bool  
 # }
 # variable "max_unavailable" {}
+
+# variable "vpc_config" {
+#  type = map(object({
+#     subnet_ids = list(string)
+#   }))
+# }
+variable "vpc_config" {
+  type = any
+}
+variable "subnet_ids" {
+  type = any
+}

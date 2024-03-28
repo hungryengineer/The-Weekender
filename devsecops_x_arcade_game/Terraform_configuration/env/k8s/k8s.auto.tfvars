@@ -26,3 +26,9 @@ update_config = {
   }
 }
 
+vpc_config = {
+  "default" = {
+    subnet_ids   = []
+  }
+}
+subnet_ids = ["subnet-0bf029d652530abf5","subnet-09504fa17148de1d8",]
