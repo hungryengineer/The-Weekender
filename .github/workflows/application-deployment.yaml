@@ -22,7 +22,7 @@ jobs:
           with:
             github-token: ${{ secrets.GITHUB_TOKEN }} # Provide GITHUB_TOKEN to login into the GitHub Packages
             image-name: arcade-app-image # Provide only Docker image name, tag will be automatically set to latest
-            dockerfile: ./devsecops_x_arcade_game/Application/snake_game
+            dockerfile: ./devsecops_x_arcade_game/Application/snake_game/Dockerfile
             image-tag: ${{github.run_number}}
 
 
