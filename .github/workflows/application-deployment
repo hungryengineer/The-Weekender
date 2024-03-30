@@ -1,0 +1,9 @@
+# CI stage: 
+#build image from dockerfile 
+#push the image to GHP
+
+# CD stage:
+#authenticate and login to eks cluster
+#set current cluster context
+#bake the helm chart into deployable manifests
+#deploy the manifests
