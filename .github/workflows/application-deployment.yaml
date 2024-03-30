@@ -4,10 +4,10 @@ on:
   push:
     branches: [ "pre-master" ]
 
-permissions:
-    contents: write
-    pull-requests: write
-    repository-projects: write
+permissions: write-all
+    # contents: write
+    # pull-requests: write
+    # repository-projects: write
 
 jobs:
     build-and-publish-latest:
