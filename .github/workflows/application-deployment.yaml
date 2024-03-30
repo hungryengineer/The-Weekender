@@ -1,9 +1,35 @@
-# CI stage: 
-#build image from dockerfile 
-#push the image to GHP
+name: 'Arcade Application deployment'
 
-# CD stage:
-#authenticate and login to eks cluster
-#set current cluster context
-#bake the helm chart into deployable manifests
-#deploy the manifests
+on:
+  push:
+    branches: [ "pre-master" ]
+
+permissions:
+    contents: write
+    pull-requests: write
+    repository-projects: write
+
+jobs:
+    build-and-publish-latest:
+        runs-on: ubuntu-latest
+        if: github.ref == 'refs/heads/pre-master' # Running this job only for pre-master branch
+
+        steps:
+        - uses: actions/checkout@v2 # Checking out the repo
+
+        - name: Build and Publish latest Docker image
+          uses: DrSkunk/gp-docker-action@1.1.9
+          with:
+            github-token: ${{ secrets.GITHUB_TOKEN }} # Provide GITHUB_TOKEN to login into the GitHub Packages
+            image-name: arcade-app-image # Provide only Docker image name, tag will be automatically set to latest
+            dockerfile: "../../devsecops_x_arcade_game/Application/snake_game/Dockerfile"
+
+    # CI stage:    
+    #build image from dockerfile 
+    #push the image to GHP
+
+    # CD stage:
+    #authenticate and login to eks cluster
+    #set current cluster context
+    #bake the helm chart into deployable manifests
+    #deploy the manifests
