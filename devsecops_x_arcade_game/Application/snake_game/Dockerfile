@@ -7,6 +7,12 @@ WORKDIR /app
 #add the project source
 COPY . /app
 
+#install tkinter lib
+RUN apt-get update && \
+    apt-get install -y \
+    python3-tk \
+    && rm -rf /var/lib/apt/lists/*
+
 # Create a non-root user which will run the invoke cmd
 RUN useradd --create-home appuser
 USER appuser
