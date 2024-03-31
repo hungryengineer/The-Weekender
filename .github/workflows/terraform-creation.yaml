@@ -73,7 +73,7 @@ jobs:
       run: terraform apply -auto-approve -input=false
       working-directory: ${{ env.working-directory }}
 
-#########################IAM deployment#############################
+#########################IAM deployment############################
 
   terraform-iam-deployment:
     name: 'Terraform-iam'
