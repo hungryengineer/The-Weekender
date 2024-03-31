@@ -1,6 +1,11 @@
 #pull down a minimal base image
 FROM python:3.9-slim 
 
+# Set environment variables (display mandatory)
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    DISPLAY=:0
+
 #set the working directory from where the cmd instruction will be executed
 WORKDIR /app
 
