@@ -32,8 +32,8 @@ RUN useradd --create-home appuser
 USER appuser
 
 #command that Docker will execute once container has started: 
-CMD pwd && ls -l && xvfb-run -a && python devsecops_x_arcade_game/Application/snake_game/main.py
-
+#CMD pwd && ls -l && xvfb-run -a && python devsecops_x_arcade_game/Application/snake_game/main.py
+CMD ["xvfb-run", "-a", "python", "python devsecops_x_arcade_game/Application/snake_game/main.py"]
 
 
 
