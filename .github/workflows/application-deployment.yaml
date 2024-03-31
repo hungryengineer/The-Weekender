@@ -15,7 +15,7 @@ jobs:
         if: github.ref == 'refs/heads/pre-master' # Running this job only for pre-master branch
 
         steps:
-        - uses: actions/checkout@v2 # Checking out the repo
+        - uses: actions/checkout@v2 # Checking out the repo 
 
         - name: Build and Publish latest Docker image
           uses: DrSkunk/gp-docker-action@1.1.9
