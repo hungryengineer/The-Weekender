@@ -10,7 +10,7 @@ permissions: write-all
     # repository-projects: write 
 
 jobs:
-    build-and-publish-latest:
+    build-and-publish-latest: 
         runs-on: ubuntu-latest
         if: github.ref == 'refs/heads/pre-master' # Running this job only for pre-master branch
 
