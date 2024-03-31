@@ -24,7 +24,7 @@ jobs:
             image-name: arcade-app-image # Provide only Docker image name, tag will be automatically set to latest
             dockerfile: ./devsecops_x_arcade_game/Application/py-app/Dockerfile
             image-tag: ${{github.run_number}}
-
+ 
     # deploy: 
     #     runs-on: ubuntu-latest 
     #     needs: [build-and-publish-latest]
