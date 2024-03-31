@@ -12,7 +12,7 @@ RUN useradd --create-home appuser
 USER appuser
 
 #command that Docker will execute once container has started: 
-CMD pwd && ls -l && python /app/main.py
+CMD pwd && ls -l && python devsecops_x_arcade_game/Application/snake_game/main.py
 
 
 
