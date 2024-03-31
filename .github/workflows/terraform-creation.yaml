@@ -58,7 +58,7 @@ jobs:
 
     # Terraform plan
     - name: Terraform Plan
-      run: terraform plan -input=false
+      run: terraform plan -input=false -lock=false
       working-directory: ${{ env.working-directory-network}}
 
     # Exit Action on Plan Failure
