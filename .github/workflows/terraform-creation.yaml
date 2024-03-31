@@ -142,7 +142,7 @@ jobs:
 ##########################k8s deployment##############################
 
   terraform-k8s-deployment:
-    name: 'Terraform-iam'
+    name: 'Terraform-k8s'
     needs: [terraform-network-deployment, terraform-iam-deployment]
     runs-on: ubuntu-latest
     environment: playground
@@ -160,10 +160,10 @@ jobs:
         shell: bash
 
     steps:
-    - name: Set up environment variables
-      run: |
-          echo "AWS_ACCESS_KEY_ID=your-access-key-id" >> ${{ secrets.AWS_ACCESS_KEY_ID }}
-          echo "AWS_SECRET_ACCESS_KEY=your-secret-access-key" >> ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    # - name: Set up environment variables
+    #   run: |
+    #       echo "AWS_ACCESS_KEY_ID=your-access-key-id" >> ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #       echo "AWS_SECRET_ACCESS_KEY=your-secret-access-key" >> ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     
     # Repo checkout
     - name: Checkout
