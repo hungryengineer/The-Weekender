@@ -143,6 +143,7 @@ jobs:
   
     terraform-k8s-decommission:
       name: 'Terraform-iam'
+      needs: [terraform-network-decommission, terraform-iam-decommission]
       runs-on: ubuntu-latest
       environment: playground
       

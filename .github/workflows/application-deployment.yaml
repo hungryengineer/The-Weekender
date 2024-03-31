@@ -25,13 +25,23 @@ jobs:
             dockerfile: ./devsecops_x_arcade_game/Application/snake_game/Dockerfile
             image-tag: ${{github.run_number}}
 
+    deploy:
+        runs-on: ubuntu-latest
+        needs: [build-and-publish-latest]
 
-    # CI stage:    
-    #build image from dockerfile 
-    #push the image to GHP
+        steps:
+        - uses: actions/checkout@v2
 
-    # CD stage:
-    #authenticate and login to eks cluster
-    #set current cluster context
-    #bake the helm chart into deployable manifests
-    #deploy the manifests
+        - name: AWS Credentials
+          uses: aws-actions/configure-aws-credentials@v1
+          with:
+            aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+            aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+            aws-region: ap-south-1  # change as needed
+
+        - name: helm deploy
+          uses: koslibpro/helm-eks-action@master
+          env:
+            KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+            with:
+            command: helm upgrade --install arcaderelease file:./devsecops_x_arcade_game/Application/arcade-helm -f .values.yaml --set image.tag=${{ github.run_number }} --wait

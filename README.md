@@ -38,3 +38,12 @@ To destroy the resources, reverse sequence is to be followed. If the sequence is
 # STEP 2 -- creating pipelines for terraform deployment *
 
 # STEP 3 -- creating pipeline for building docker image using dockerfile and pushing it to GH Packages
+# CI stage:    
+    #build image from dockerfile 
+    #push the image to GHP
+
+# CD stage:
+    #authenticate and login to eks cluster
+    #set current cluster context
+    #bake the helm chart into deployable manifests
+    #deploy the manifests

@@ -4,8 +4,8 @@ node_group_name = [["arcade-eks-node-group"], ]
 
 scaling_config = {
   "config1" = {
-    desired_size = 3
-    max_size     = 5
+    desired_size = 1
+    max_size     = 2
     min_size     = 1
   }
 }
