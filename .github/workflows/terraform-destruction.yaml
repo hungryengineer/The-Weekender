@@ -18,7 +18,7 @@ jobs:
       environment: playground
       
       env:       
-        working-directory-iam: devsecops_x_arcade_game/Terraform_configuration/env/k8s
+        working-directory-k8s: devsecops_x_arcade_game/Terraform_configuration/env/k8s
         TF_CLOUD_ORGANIZATION: "anshuman-test-org"
         TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
         TF_WORKSPACE: "arcade-k8s"
