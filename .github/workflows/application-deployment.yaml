@@ -4,7 +4,7 @@ on:
   push:
     branches: [ "pre-master" ]
 
-permissions: write-all
+permissions: write-all 
     # contents: write
     # pull-requests: write
     # repository-projects: write 
