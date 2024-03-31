@@ -30,7 +30,7 @@ jobs:
     #     needs: [build-and-publish-latest]
 
     #     steps:
-    #     - uses: actions/checkout@v2  
+    #     - uses: actions/checkout@v2   
 
     #     - name: AWS Credentials 
     #       uses: aws-actions/configure-aws-credentials@v1

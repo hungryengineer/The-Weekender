@@ -12,7 +12,7 @@ RUN useradd --create-home appuser
 USER appuser
 
 #command that Docker will execute once container has started: 
-CMD ["python3", "main.py"] 
+CMD ["python", "/app/main.py"] 
 
 
 
