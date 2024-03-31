@@ -1,17 +1,25 @@
-# Use an official Python runtime as the base image
-FROM python:3.9-slim
+#pull down a minimal base image
+FROM python:3.9-slim 
 
-# Set the working directory in the container
+#set the working directory from where the cmd instruction will be executed
 WORKDIR /app
 
-# Copy the current directory contents into the container at /app
+#add the project source code
 COPY . /app
 
-# Install any needed dependencies specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+# Create a non-root user which will run the invoke cmd
+RUN useradd --create-home appuser
+USER appuser
 
-# Make port 80 available to the world outside this container
-EXPOSE 80
+#command that Docker will execute once container has started: 
+CMD ["python", "oop_main.py"] 
 
-# Define the command to run your application
-CMD ["python", "oop_main.py"]
+
+
+
+
+
+
+
+
+

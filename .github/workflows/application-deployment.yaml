@@ -1,6 +1,6 @@
 name: 'Arcade Application deployment'
 
-on:
+on: 
   push:
     branches: [ "pre-master" ]
 
