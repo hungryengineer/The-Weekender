@@ -73,7 +73,7 @@ jobs:
         run: terraform destroy -auto-approve -input=false
         working-directory: ${{ env.working-directory-network }}
   
-  #########################IAM decommission#############################
+  #########################IAM decommission############################
   
     terraform-iam-decommission:
       name: 'Terraform-iam'
