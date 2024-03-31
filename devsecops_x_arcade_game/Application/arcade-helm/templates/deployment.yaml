@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: {{ .Chart.Name }}
-          image: ghcr.io/hungryengineer/the-weekender/arcade-app-image:26
+          image: ghcr.io/hungryengineer/the-weekender/arcade-app-image:27
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - containerPort: 80
