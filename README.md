@@ -4,19 +4,19 @@ This repository contains the DevOps projects which closely mimic production grad
 This is an end to end  DevSecOps implementation with below components:
 
 1. Application code: classic snake game built on python
-i) Application code
+i) Application code *
 ii) Pytest
-iii) Dockerfile
-iv) Github packages
+iii) Dockerfile *
+iv) Github packages *
 
 2. DevSecOps tools:
-i) EKS cluster
-iii) Terraform
-iv) Terratest
+i) EKS cluster *
+iii) Terraform *
+iv) Terratest *(integration pending)
 v) Checkov
 vi) Argo CD
-vii) GitHub actions
-viii) Trivy scan
+vii) GitHub actions *
+viii) Trivy scan *
 ix) OWASP 
 x) SonarQube
 xi) Prometheus and Grafana

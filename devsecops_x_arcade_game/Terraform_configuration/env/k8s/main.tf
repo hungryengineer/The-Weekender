@@ -4,7 +4,7 @@ module "arcade-eks" {
     eks_name     = var.eks_name[0]
     role_arn     = data.terraform_remote_state.arcade-iam.outputs.eks_arcade_iam_role_arn[0]
     vpc_config   = var.vpc_config
-    subnet_ids   = var.subnet_ids#data.terraform_remote_state.arcade-network.outputs.subnet_id[*]
+    subnet_ids = flatten(data.terraform_remote_state.arcade-network.outputs.subnet_id)
 
     # depends_on = [ data.terraform_remote_state.arcade.aws_iam_role_policy_attachment.arcade-Policy ]
 }
@@ -14,7 +14,7 @@ module "arcade-eks-node-group" {
     eks_name          = var.eks_name[0]
     node_group_name   = var.node_group_name[0]
     node_role_arn     = data.terraform_remote_state.arcade-iam.outputs.eks_node_group_arcade_iam_role_arn[0]
-    subnet_ids        = var.subnet_ids#data.terraform_remote_state.arcade-network.outputs.subnet_id[*]
+    subnet_ids = flatten(data.terraform_remote_state.arcade-network.outputs.subnet_id)
     scaling_config    = var.scaling_config
     # desired_size = var.desired_size
     # min_size = var.min_size

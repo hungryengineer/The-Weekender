@@ -50,6 +50,3 @@ variable "update_config" {
 variable "vpc_config" {
   type = any
 }
-variable "subnet_ids" {
-  type = any
-}
