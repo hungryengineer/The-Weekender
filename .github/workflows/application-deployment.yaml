@@ -7,7 +7,7 @@ on:
 permissions: write-all  
     # contents: write
     # pull-requests: write
-    # repository-projects: write 
+    # repository-projects: write
 
 jobs:
   sonarcloud:
