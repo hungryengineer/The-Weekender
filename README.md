@@ -11,6 +11,7 @@ iv) Github packages *
 
 2. DevSecOps tools:
 i) EKS cluster *
+ii) Istio Service mesh
 iii) Terraform *
 iv) Terratest *(integration pending)
 v) Checkov
