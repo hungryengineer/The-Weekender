@@ -10,7 +10,21 @@ permissions: write-all
     # repository-projects: write 
 
 jobs:
-    build-and-publish-latest: 
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+
+  build-and-publish-latest: 
         runs-on: ubuntu-latest
         if: github.ref == 'refs/heads/pre-master' # Running this job only for pre-master branch
 
@@ -25,6 +39,7 @@ jobs:
             dockerfile: ./devsecops_x_arcade_game/Application/snake_game/Dockerfile
             image-tag: ${{github.run_number}}
 
+            
         - name: Run Trivy vulnerability scanner
           uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
           with:

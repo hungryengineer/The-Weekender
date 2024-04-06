@@ -14,7 +14,7 @@ i) EKS cluster *
 ii) Istio Service mesh
 iii) Terraform *
 iv) Terratest *(integration pending)
-v) Checkov
+v) Checkov *
 vi) Argo CD
 vii) GitHub actions *
 viii) Trivy scan *
