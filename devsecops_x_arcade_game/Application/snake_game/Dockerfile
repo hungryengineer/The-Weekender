@@ -10,7 +10,7 @@ ENV PYTHONUNBUFFERED=1 \
 WORKDIR /app
 
 #add the project source
-COPY . /app
+COPY ./devsecops_x_arcade_game/Application/snake_game /app
 
 #install tkinter lib
 RUN apt-get update && \
@@ -33,7 +33,7 @@ USER appuser
 
 #command that Docker will execute once container has started: 
 #CMD pwd && ls -l && xvfb-run -a && python devsecops_x_arcade_game/Application/snake_game/main.py
-CMD ["xvfb-run", "-a", "python", "python devsecops_x_arcade_game/Application/snake_game/main.py"]
+CMD ["xvfb-run", "-a", "python", "main.py"]
 
 
 
