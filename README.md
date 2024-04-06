@@ -19,7 +19,7 @@ vi) Argo CD
 vii) GitHub actions *
 viii) Trivy scan *
 ix) OWASP 
-x) SonarQube
+x) Sonar cloud *
 xi) Prometheus and Grafana
 
 _________________________________________________________

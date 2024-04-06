@@ -26,6 +26,7 @@ jobs:
 
   build-and-publish-latest: 
         runs-on: ubuntu-latest
+        needs: [sonarcloud]
         if: github.ref == 'refs/heads/pre-master' # Running this job only for pre-master branch
 
         steps:
@@ -39,7 +40,7 @@ jobs:
             dockerfile: ./devsecops_x_arcade_game/Application/snake_game/Dockerfile
             image-tag: ${{github.run_number}}
 
-            
+
         - name: Run Trivy vulnerability scanner
           uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
           with:
