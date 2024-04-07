@@ -85,6 +85,4 @@ jobs:
           
         - name: Deploy Helm chart
           run: |
-              helm upgrade --install arcade-release ./devsecops_x_arcade_game/Application/arcade-helm \
-              --set image.repository=ghcr.io/hungryengineer/the-weekender \
-              --set image.tag=arcade-app-image:${{ github.run_number }}
+              helm upgrade --install arcade-release file:./devsecops_x_arcade_game/Application/arcade-helm -f .values.yaml --set image.tag=${{ github.run_number }} --wait
