@@ -70,7 +70,7 @@ jobs:
             aws-region: ap-south-1 
           
         - name: Set up kubectl
-          uses: azure/k8s-set-context@v1
+          uses: azure/k8s-set-context@v4
           with:
             kubeconfig: ${{ secrets.KUBE_CONFIG_DATA }}
           
