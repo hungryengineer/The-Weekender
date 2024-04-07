@@ -48,3 +48,5 @@ To destroy the resources, reverse sequence is to be followed. If the sequence is
     #set current cluster context
     #bake the helm chart into deployable manifests
     #deploy the manifests
+
+(pending: automate latest image pull)

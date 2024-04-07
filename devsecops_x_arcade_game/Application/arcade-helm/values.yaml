@@ -8,7 +8,7 @@ image:
   repository: ghcr.io/hungryengineer/the-weekender/arcade-app-image
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: 66
+  tag: 66 #need to automate this
 
 imagePullSecrets: []
 nameOverride: ""

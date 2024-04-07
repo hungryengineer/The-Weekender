@@ -104,7 +104,7 @@ jobs:
       # Repo checkout
       - name: Checkout
         uses: actions/checkout@v3
-  
+   
       # Aws IAM auth
       - name: Configure AWS Credentials Action For GitHub Actions
         uses: aws-actions/configure-aws-credentials@v1-node16
