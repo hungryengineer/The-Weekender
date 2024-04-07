@@ -85,6 +85,6 @@ jobs:
           
         - name: Deploy Helm chart
           run: |
-              helm upgrade --install arcade-release ./devsecops_x_arcade_game/Application/arcade-helm
-              --set image.repository=ghcr.io/hungryengineer/the-weekender
+              helm upgrade --install arcade-release ./devsecops_x_arcade_game/Application/arcade-helm \
+              --set image.repository=ghcr.io/hungryengineer/the-weekender \
               --set image.tag=arcade-app-image:${{ github.run_number }}
