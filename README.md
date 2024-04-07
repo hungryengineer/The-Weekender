@@ -34,7 +34,7 @@ Step3. Create resources in k8's (init, plan, apply)
 
 To destroy the resources, reverse sequence is to be followed. If the sequence is not adhered to the the tf process will either result in error and fail or some resources might be orphaned and then would have to be deleted manually.
 
-* for some reasons datasources can't populate the subnet id field required for eks provisioning, the workaround is to manually add the subnets before each run
+* Ensure that LB type services are deleted from the EKS cluster before the cluster is destroyed, if not LBs will be retained and will interfere in IGW destruction via TF pipeline.
 
 # STEP 2 -- creating pipelines for terraform deployment *
 
