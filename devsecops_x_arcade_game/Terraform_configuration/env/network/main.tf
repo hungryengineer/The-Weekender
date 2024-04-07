@@ -22,6 +22,20 @@ module "arcade-subnet" {
 
 }
 
+##########internet gateway########
+
+module "arcade-igw" {
+    source          = "../../mod/igw"
+    count           = length(var.cidr_block)
+    cidr_block      = element(var.cidr_block, count.index)
+    vpc_id          = module.arcade-vpc[0].vpc_id
+    tags = {
+    Name = "igw-${local.tags.Name}"
+    Project = "igw-${local.tags.Project}"
+    }
+    depends_on      = [ module.arcade-vpc, module.arcade-subnet ]    
+}
+
 ##########nat gateway#############
 
 module "arcade-nat" {
@@ -34,20 +48,6 @@ module "arcade-nat" {
     }
     depends_on        = [ module.arcade-igw ]
         
-}
-
-##########internet gateway########
-
-module "arcade-igw" {
-    source          = "../../mod/igw"
-    count           = length(var.cidr_block)
-    cidr_block      = element(var.cidr_block, count.index)
-    vpc_id          = module.arcade-vpc[0].vpc_id
-    tags = {
-    Name = "igw-${local.tags.Name}"
-    Project = "igw-${local.tags.Project}"
-    }
-    depends_on      = [ module.arcade-vpc, module.arcade-subnet, module.arcade-nat ]    
 }
 
 #########route table##########
