@@ -5,10 +5,10 @@
 replicaCount: 1
 
 image:
-  repository: "" #ghcr.io/hungryengineer/the-weekender
+  repository: ghcr.io/hungryengineer/the-weekender
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "" #arcade-app-image:${{ github.run_number }}
+  tag: arcade-app-image:${{ github.run_number }}
 
 imagePullSecrets: []
 nameOverride: ""
