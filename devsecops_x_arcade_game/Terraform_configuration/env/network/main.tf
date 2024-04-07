@@ -46,7 +46,7 @@ module "arcade-nat" {
     Name = "nat-${local.tags.Name}"
     Project = "nat-${local.tags.Project}"
     }
-    depends_on        = [ module.arcade-igw ]
+    depends_on        = [ module.arcade-vpc, module.arcade-subnet ]
         
 }
 
@@ -64,6 +64,8 @@ module "arcade-rt" {
     Name = "rt-${local.tags.Name}"
     Project = "rt-${local.tags.Project}"
     }
+    depends_on        = [ module.arcade-igw ]
+
 }
 
 #########route_table_association########
