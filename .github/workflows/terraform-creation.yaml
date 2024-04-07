@@ -47,6 +47,7 @@ jobs:
 ########################network deployment############################
   terraform-network-deployment:
     name: 'Terraform-network'
+    needs: [checkov]
     runs-on: ubuntu-latest
     environment: playground
     
@@ -94,7 +95,7 @@ jobs:
 
     # Terraform plan
     - name: Terraform Plan
-      run: terraform plan -input=false
+      run: terraform plan -input=false -lock=false
       working-directory: ${{ env.working-directory-network}}
 
     # Exit Action on Plan Failure
@@ -106,13 +107,14 @@ jobs:
     # Terraform apply
     - name: Terraform Apply
       # if: github.ref == 'refs/heads/"pre-master"' && github.event_name == 'push'
-      run: terraform apply -auto-approve -input=false
+      run: terraform apply -auto-approve -input=false -lock=false
       working-directory: ${{ env.working-directory-network }}
 
 #########################IAM deployment############################
 
   terraform-iam-deployment:
     name: 'Terraform-iam'
+    needs: [checkov]
     runs-on: ubuntu-latest
     environment: playground
     
@@ -179,7 +181,7 @@ jobs:
 
   terraform-k8s-deployment:
     name: 'Terraform-k8s'
-    needs: [terraform-network-deployment, terraform-iam-deployment]
+    needs: [checkov, terraform-network-deployment, terraform-iam-deployment]
     runs-on: ubuntu-latest
     environment: playground
     
