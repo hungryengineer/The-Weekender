@@ -127,7 +127,7 @@ jobs:
   
       # Terraform plan
       - name: Terraform Plan
-        run: terraform plan -input=false
+        run: terraform plan -input=false -lock=false
         working-directory: ${{ env.working-directory-network }}
   
       # Exit Action on Plan Failure
@@ -139,7 +139,7 @@ jobs:
       # Terraform destroy
       - name: Terraform destroy
         # if: github.ref == 'refs/heads/"pre-master"' && github.event_name == 'push'
-        run: terraform destroy -auto-approve -input=false
+        run: terraform destroy -auto-approve -input=false -lock=false
         working-directory: ${{ env.working-directory-network }}
   
   #########################IAM decommission############################
