@@ -86,7 +86,7 @@ jobs:
                   aws-region: ap-south-1
                   cluster-name: arcade-eks
                   config-files: ./devsecops_x_arcade_game/Application/arcade-helm/values.yaml
-                  chart-repository: https://ghcr.io/hungryengineer/the-weekender
+                  chart-path: ./devsecops_x_arcade_game/Application/arcade-helm
                   chart-name: arcade-app-image
                   chart-version: ${{ github.run_number }}
                   namespace: arcade
