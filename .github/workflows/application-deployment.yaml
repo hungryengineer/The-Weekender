@@ -72,7 +72,7 @@ jobs:
         - name: Configure AWS credentials
           run: |
               echo "${{ secrets.KUBE_CONFIG_DATA }}" > kubeconfig.yaml
-              export KUBECONFIG=kubeconfig.yaml
+              export KUBE_CONFIG_DATA=kubeconfig.yaml
             
               - name: Verify kubectl version
                 run: kubectl version --client
