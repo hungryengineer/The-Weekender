@@ -68,22 +68,23 @@ jobs:
             aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
             aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
             aws-region: ap-south-1 
-          
-        # - name: Set up Helm
-        #   uses: azure/setup-helm@v1
-          
-        # - name: Authenticate with GitHub Packages
-        #   run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-          
-        # - name: Pull Docker image from GitHub Packages
-        #   run: docker pull ghcr.io/hungryengineer/the-weekender/arcade-app-image:${{ github.run_number }}
-          
-        - name: helm deploy
-          uses: koslibpro/helm-eks-action@master
-          env:
-            KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+
+        - name: Set up kubectl
+          uses: azure/k8s-set-context@v1
           with:
-            command:
+              kubeconfig: ${{ secrets.KUBE_CONFIG_DATA }}
+          
+        - name: Set up Helm
+          uses: azure/setup-helm@v1
+          
+        - name: Authenticate with GitHub Packages
+          run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          
+        - name: Pull Docker image from GitHub Packages
+          run: docker pull ghcr.io/hungryengineer/the-weekender/arcade-app-image:${{ github.run_number }}
+          
+        - name: Deploy Helm chart
+          run: |
               helm upgrade --install arcade-release ./devsecops_x_arcade_game/Application/arcade-helm
               --set image.repository=ghcr.io/hungryengineer/the-weekender
               --set image.tag=arcade-app-image:${{ github.run_number }}
