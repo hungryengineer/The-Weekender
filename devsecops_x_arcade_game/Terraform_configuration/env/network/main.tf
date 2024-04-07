@@ -33,7 +33,7 @@ module "arcade-igw" {
     Name = "igw-${local.tags.Name}"
     Project = "igw-${local.tags.Project}"
     }
-    depends_on      = [ module.arcade-vpc ]    
+    depends_on      = [ module.arcade-vpc, module.arcade-subnet ]    
 }
 
 ##########nat gateway#############
