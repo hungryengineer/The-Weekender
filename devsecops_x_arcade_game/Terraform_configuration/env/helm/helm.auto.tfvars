@@ -6,4 +6,4 @@ chart = ["nginx", ]
   
 chart_version = ["","", ]
 
-namespace = "nginx"
+namespace = "default"
