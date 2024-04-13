@@ -1,9 +1,9 @@
 name = ["argo", ]
   
-repository = ["https://charts.bitnami.com/bitnami", ]#"https://argoproj.github.io/argo-helm","", ]
+repository = ["", ]#"https://argoproj.github.io/argo-helm","", ]
   
-chart = ["nginx", ]
+chart = ["", ]
   
 chart_version = ["","", ]
 
-namespace = "default"
+namespace = ""
