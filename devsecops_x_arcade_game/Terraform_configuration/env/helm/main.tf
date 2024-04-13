@@ -1,4 +1,4 @@
-module "arcade-helm-deploy" {
+module "arcade-helm" {
     source     = "../../mod/helm"
     name             = var.name
     repository       = var.repository
