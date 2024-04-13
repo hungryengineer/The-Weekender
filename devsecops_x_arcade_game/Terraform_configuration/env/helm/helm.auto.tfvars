@@ -1,4 +1,4 @@
-name = ["Argo", ]
+name = ["argo", ]
   
 repository = ["https://charts.bitnami.com/bitnami", ]#"https://argoproj.github.io/argo-helm","", ]
   
