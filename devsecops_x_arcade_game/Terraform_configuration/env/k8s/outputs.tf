@@ -1,3 +1,6 @@
+output "eks_name" {
+  value = module.arcade-eks[*].eks_name
+}
 output "eks_endpoint" {
   value = module.arcade-eks[*].eks_endpoint
 }
