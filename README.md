@@ -49,4 +49,4 @@ To destroy the resources, reverse sequence is to be followed. If the sequence is
     #bake the helm chart into deployable manifests
     #deploy the manifests
 
-(pending: automate latest image pull)
+** (pending: automate latest image pull into CD stage. For now, the workaround is to manually update the image:tag section of values.yaml based on latest tag in GHP)

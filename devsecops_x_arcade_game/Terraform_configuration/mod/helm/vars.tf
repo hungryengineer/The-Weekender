@@ -7,7 +7,7 @@ variable "repository" {
 variable "chart" {
   
 }
-variable "version" {
+variable "chart_version" {
   
 }
 variable "namespace" {

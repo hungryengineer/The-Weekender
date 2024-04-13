@@ -4,6 +4,6 @@ repository = ["https://argoproj.github.io/argo-helm","", ]
   
 chart = ["argo-helm","", ]
   
-version = ["","", ]
+chart_version = ["","", ]
 
 namespace = "argo"
