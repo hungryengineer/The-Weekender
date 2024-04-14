@@ -79,6 +79,8 @@ jobs:
   
     terraform-k8s-decommission:
       name: 'Terraform-k8s'
+      needs: terraform-helm-decommission
+
       runs-on: ubuntu-latest
       environment: playground
       
