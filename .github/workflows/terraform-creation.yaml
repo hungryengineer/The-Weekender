@@ -3,10 +3,11 @@ name: 'Terraform deployment'
 on:
   workflow_dispatch:
     inputs:
-      tag:
-        description: 'Release tag to checkout'
+      Release based deployment:
         required: true
-        # default: 'main'
+        description: 'Release tag to checkout'
+        default: 'main'
+
   # push:
   #   branches: [ "pre-master" ] 
   # pull_request:
