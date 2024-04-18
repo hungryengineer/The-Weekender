@@ -22,6 +22,12 @@ ix) OWASP
 x) Sonar cloud *
 xi) Prometheus and Grafana
 
+3. DNS services:
+i) Route 53 Hosted zone
+ii) GoDaddy Domain name
+iii) AWS Certificate Manager (ACM) for SSL certs
+iii) Kubernetes ExternalDNS
+iv) IRSA
 _________________________________________________________
 # STEP 1 -- provisioning infra using terraform
 
