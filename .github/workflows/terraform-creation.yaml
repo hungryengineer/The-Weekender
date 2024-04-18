@@ -6,7 +6,7 @@ on:
       Release based deployment:
         required: true
         description: 'Release tag to checkout'
-        default: 'master'
+        # default: 'master'
 
   # push:
   #   branches: [ "pre-master" ] 
