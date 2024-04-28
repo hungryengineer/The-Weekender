@@ -16,19 +16,25 @@ node -v # should print `v20.12.2`
 # verifies the right NPM version is in the environment
 npm -v # should print `10.5.0`Yarn:
 
-
+yarn:
 https://classic.yarnpkg.com/en/docs/install#windows-stable
+
 Docker:
 https://www.cyberciti.biz/faq/how-to-install-docker-on-amazon-linux-2/
+
 Git:
 https://github.com/git-guides/install-git
 
 # Scaffold Backstage
 
 npx @backstage/create-app@latest : fill in the prompts for app name
+
 cd <my-backstage-app-name> # your app name
+
 yarn dev
+
 http://localhost:3000 or if using a cloud server, <public-ip-of-server>:3000
+
 If 404 is displayed on opening the webpage, then make changes in app-config.yaml and add the DNS name of your webserver in the baseURL section
 ![alt text](image-1.png)
 
