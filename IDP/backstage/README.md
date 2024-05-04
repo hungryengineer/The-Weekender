@@ -58,6 +58,8 @@ packages/backend/: We include a backend that helps power features such as
 _____________________________________________________
 Auth via GitHub SSO:
 _____________________________________________________
+![alt text](image-3.png)
+
 Basic pre-requisites: 
 Have below handy from your GitHub O-Auth Apps:
 i) clientID
@@ -139,13 +141,13 @@ Backstage uses an app-config to configure the application from a yaml file. This
         #environment: development
         providers:
             github:
-            development:
+              development:
                 clientId: <add here>
                 clientSecret: <add here>
                 ## uncomment if using GitHub Enterprise
                 # enterpriseInstanceUrl: ${AUTH_GITHUB_ENTERPRISE_INSTANCE_URL}
                 signIn:
-                resolvers:
+                  resolvers:
                     - resolver: emailMatchingUserEntityProfileEmail
                     - resolver: emailLocalPartMatchingUserEntityName
                     - resolver: usernameMatchingUserEntityName
@@ -377,6 +379,16 @@ ______________________________________________________________
 # Scaffolding the first software catalog
 ______________________________________________________________
 
+Prerequisites:
+1. Backstage is up and running.
+2. Backstage integration with Github.
+3. A working Terraform code is uploaded on the GitHub repo.
+4. GitHub action file is created to execute the terraform code.
+
+Backstage provides a software catalog used to manage all of our software resources, including CI-CD, Docs, API, K8s, microservices, etc. To create a new component(entity) in the software catalog we need Templates.
+
+Follow: 
+https://sagar-parmar.medium.com/creating-infra-using-backstage-templates-terraform-and-github-actions-15ca4a93b1a1
 
 
 
