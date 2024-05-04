@@ -58,7 +58,11 @@ packages/backend/: We include a backend that helps power features such as
 _____________________________________________________
 Auth via GitHub SSO:
 _____________________________________________________
-
+Basic pre-requisites: 
+Have below handy from your GitHub O-Auth Apps:
+i) clientID
+ii) clientSecret
+iii) Personal access token
 
 Backstage uses an app-config to configure the application from a yaml file. This app-config will contain what is necessary for configuring the frontend and the backend. The app-config configures plugins, authentication, and more. We will use the app-config to enable SSO and Git integrations. The app-config will require sensitive information, proceed with caution .
 
