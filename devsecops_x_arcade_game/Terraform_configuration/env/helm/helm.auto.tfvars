@@ -1,8 +1,8 @@
 name = ["argo", ]
   
-repository = ["", ]#"https://argoproj.github.io/argo-helm","", ]
+repository = ["https://argoproj.github.io/argo-helm","", ]
   
-chart = ["", ]
+chart = ["argo-cd", ]
   
 chart_version = ["","", ]
 
