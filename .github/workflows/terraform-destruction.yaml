@@ -3,7 +3,7 @@ name: 'Terraform decommission'
 on:
   workflow_dispatch:
     inputs:
-      Release based deployment:
+      Release based destruction:
         required: true
         description: 'Release tag to checkout'
 
