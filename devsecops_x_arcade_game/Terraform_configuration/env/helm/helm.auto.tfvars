@@ -6,4 +6,4 @@ chart = ["argo-cd", ]
   
 chart_version = ["","", ]
 
-namespace = "argo"
+namespace = ["argo", ]

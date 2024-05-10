@@ -4,7 +4,7 @@ resource "helm_release" "arcade-helm" {
   repository = element(var.repository, count.index) #"https://charts.bitnami.com/bitnami"
   chart      = element(var.chart, count.index) #"redis"
   version    = element(var.chart_version, count.index) #"6.0.1"
-  namespace  = var.namespace
+  namespace  = element(var.namespace, count.index)
 
 #   values = [
 #     "${file("values.yaml")}"
