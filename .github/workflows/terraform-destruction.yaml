@@ -1,9 +1,11 @@
 name: 'Terraform decommission'
 
 on:
-  push:
-    branches: [ "pre-master" ]
-  pull_request:
+  workflow_dispatch:
+    inputs:
+      Release based deployment:
+        required: true
+        description: 'Release tag to checkout'
 
 permissions:
   contents: read
