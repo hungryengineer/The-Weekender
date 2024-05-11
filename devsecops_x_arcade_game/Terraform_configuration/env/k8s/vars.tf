@@ -50,28 +50,3 @@ variable "update_config" {
 variable "vpc_config" {
   type = any
 }
-
-variable "namespace" {
-  type = map(object({
-    annotations = map(string)
-    labels      = map(string)
-  }))
-  default = {
-    argo = {
-      annotations = {
-        name = "argo"
-      }
-      labels = {
-        mylabel = "argo"
-      }
-    },
-    kong = {
-      annotations = {
-        name = "kong"
-      }
-      labels = {
-        mylabel = "kong"
-      }
-    }
-  }
-}

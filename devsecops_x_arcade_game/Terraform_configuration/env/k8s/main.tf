@@ -29,10 +29,3 @@ module "arcade-eks-node-group" {
 #     aws_iam_role_policy_attachment.example-AmazonEC2ContainerRegistryReadOnly,
 #   ]
 }
-
-module "kubernetes_namespace" {
-    source = "../../mod/kubernetes_namespace"
-    namespace = var.namespace
-    depends_on = [ module.arcade-eks-node-group ]
-
-}

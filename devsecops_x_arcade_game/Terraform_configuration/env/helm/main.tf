@@ -1,3 +1,9 @@
+module "kubernetes_namespace" {
+    source = "../../mod/kubernetes_namespace"
+    namespace = var.namespaces
+    depends_on = [ module.arcade-eks-node-group ]
+}
+
 module "arcade-helm" {
     source     = "../../mod/helm"
     name             = var.name
