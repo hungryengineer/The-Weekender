@@ -1,7 +1,6 @@
 module "kubernetes_namespace" {
     source = "../../mod/kubernetes_namespace"
     namespaces = var.namespaces
-    depends_on = [ module.arcade-eks-node-group ]
 }
 
 module "arcade-helm" {
@@ -11,4 +10,5 @@ module "arcade-helm" {
     chart            = var.chart
     chart_version    = var.chart_version
     namespace        = var.namespace
+    depends_on = [ module.kubernetes_namespace ]
 }
