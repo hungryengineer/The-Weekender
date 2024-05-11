@@ -45,4 +45,8 @@ resource "aws_eks_node_group" "arcade_eks_node_group" {
 #     aws_iam_role_policy_attachment.example-AmazonEC2ContainerRegistryReadOnly,
 #   ]
 }
+provisioner "local-exec" {
+  command = "bootstrap-cluster.sh"
+
+}
 }
