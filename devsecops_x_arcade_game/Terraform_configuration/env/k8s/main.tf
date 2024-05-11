@@ -30,3 +30,9 @@ module "arcade-eks-node-group" {
 #   ]
 }
 
+module "kubernetes_namespace" {
+    source = "../../mod/kubernetes_namespace"
+    namespace = var.namespace
+    depends_on = [ module.arcade-eks-node-group ]
+
+}
