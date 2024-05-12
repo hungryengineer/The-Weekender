@@ -1,4 +1,4 @@
-resource "null_resource" "update_config_&_create_namespace" {
+resource "null_resource" "update_config_create_namespace" {
   triggers = {
     eks_ep = data.terraform_remote_state.arcade-k8s.outputs.eks_endpoint[0][0]
   }
