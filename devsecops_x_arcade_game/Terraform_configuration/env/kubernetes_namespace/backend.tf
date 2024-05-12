@@ -3,7 +3,7 @@ terraform {
     organization = "anshuman-test-org"
 
     workspaces {
-      name = "arcade-kubernetes_namespace"
+      name = "arcade-kubernetes_workspace"
     }
   }
 }
