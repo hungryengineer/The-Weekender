@@ -1,19 +1,22 @@
-resource "null_resource" "update_config" {
+resource "null_resource" "update_config_&_create_namespace" {
   triggers = {
     eks_ep = data.terraform_remote_state.arcade-k8s.outputs.eks_endpoint[0][0]
   }
   provisioner "local-exec" {
-    command = "aws eks --region ap-south-1 update-kubeconfig --name arcade-eks"
-  }
+    command = <<-EOT
+      aws eks --region ap-south-1 update-kubeconfig --name arcade-eks
+      kubectl create namespace argo
+    EOT
 }
-resource "null_resource" "create_namespace" {
-  triggers = {
-    eks_ep = data.terraform_remote_state.arcade-k8s.outputs.eks_endpoint[0][0]
-  }
-  provisioner "local-exec" {
-    command = "kubectl create namespace argo"
-  }
 }
+# resource "null_resource" "create_namespace" {
+#   triggers = {
+#     eks_ep = data.terraform_remote_state.arcade-k8s.outputs.eks_endpoint[0][0]
+#   }
+#   provisioner "local-exec" {
+#     command = "kubectl create namespace argo"
+#   }
+# }
 # module "kubernetes_namespace" {
 #     source = "../../mod/kubernetes_namespace"
 #     namespaces = var.namespaces
