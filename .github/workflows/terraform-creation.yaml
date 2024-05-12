@@ -328,7 +328,7 @@ jobs:
 
   terraform-helm-deployment:
     name: 'Terraform-helm'
-    needs: [terraform-k8s-deployment]
+    needs: [terraform-k8s-deployment, terraform-kubernetes_namespace-deployment]
     runs-on: ubuntu-latest
     environment: playground
     
