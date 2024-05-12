@@ -1,16 +1,4 @@
-# resource "kubernetes_namespace" "argo" {
-#   metadata {
-#     name = "argo"
-#   }
-# }
-
 resource "helm_release" "arcade-helm" {
-  # provisioner "local-exec" {
-  #   command = "aws eks --region ap-south-1 update-kubeconfig --name arcade-eks"
-  # }
-  # provisioner "local-exec" {
-  #   command = "bootstrap-cluster.sh"
-  # }
   count      = length(var.chart)
   name       = element(var.name, count.index)
   repository = element(var.repository, count.index) #"https://charts.bitnami.com/bitnami"
