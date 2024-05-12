@@ -19,6 +19,6 @@ provider "kubernetes" {
       args        = ["eks", "get-token", "--cluster-name", data.terraform_remote_state.arcade-k8s.outputs.eks_name[0][0]]
       command     = "aws"
     }
-    load_config_file       = false
+    # load_config_file       = false
 
 }
