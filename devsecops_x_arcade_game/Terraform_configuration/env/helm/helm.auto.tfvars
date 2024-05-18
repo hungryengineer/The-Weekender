@@ -1,8 +1,8 @@
 name = ["argo", "istio"]
   
-repository = ["https://argoproj.github.io/argo-helm","https://github.com/istio/istio/tree/master/manifests/charts", "",  ]
+repository = ["https://argoproj.github.io/argo-helm","https://istio-release.storage.googleapis.com/charts", "",  ]
   
-chart = ["argo-cd", "istio" ]
+chart = ["argo-cd", "istio/istiod" ]
   
 chart_version = ["","", ]
 
