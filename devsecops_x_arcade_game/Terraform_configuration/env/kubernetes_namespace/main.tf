@@ -7,6 +7,8 @@ resource "null_resource" "update_config_create_namespace" {
       aws eks --region ap-south-1 update-kubeconfig --name arcade-eks
       kubectl create namespace argo
       kubectl create namespace istio-system
+      kubectl label namespace default istio-injection=enabled --overwrite
+
     EOT
 }
 }
