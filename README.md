@@ -15,14 +15,14 @@ ii) Istio Service mesh
 iii) Terraform *
 iv) Terratest *(integration pending)
 v) Checkov *
-vi) Argo CD
+vi) Argo CD *
 vii) GitHub actions *
 viii) Trivy scan *
 ix) OWASP 
 x) Sonar cloud *
 xi) Prometheus and Grafana
 
-3. DNS services:
+3. DNS services: (try cert-manager for kubernetes)
 i) Route 53 Hosted zone
 ii) GoDaddy Domain name
 iii) AWS Certificate Manager (ACM) for SSL certs

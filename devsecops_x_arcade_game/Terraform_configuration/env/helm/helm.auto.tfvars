@@ -1,9 +1,9 @@
-name = ["argo", ]
+name = ["argo", "istio"]
   
-repository = ["https://argoproj.github.io/argo-helm","", ]
+repository = ["https://argoproj.github.io/argo-helm","https://istio-release.storage.googleapis.com/charts", "",  ]
   
-chart = ["argo-cd", ]
+chart = ["argo-cd", "istio" ]
   
 chart_version = ["","", ]
 
-namespace = ["argo", ]
+namespace = ["argo", "istio-system" ]

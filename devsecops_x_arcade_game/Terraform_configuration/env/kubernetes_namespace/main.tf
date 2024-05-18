@@ -6,6 +6,7 @@ resource "null_resource" "update_config_create_namespace" {
     command = <<-EOT
       aws eks --region ap-south-1 update-kubeconfig --name arcade-eks
       kubectl create namespace argo
+      kubectl create namespace istio-system
     EOT
 }
 }
