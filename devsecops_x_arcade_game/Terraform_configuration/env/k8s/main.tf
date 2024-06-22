@@ -29,4 +29,3 @@ module "arcade-eks-node-group" {
 #     aws_iam_role_policy_attachment.example-AmazonEC2ContainerRegistryReadOnly,
 #   ]
 }
-

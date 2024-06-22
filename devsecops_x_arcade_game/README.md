@@ -56,3 +56,6 @@ To destroy the resources, reverse sequence is to be followed. If the sequence is
     #deploy the manifests
 
 ** (pending: automate latest image pull into CD stage. For now, the workaround is to manually update the image:tag section of values.yaml based on latest tag in GHP)
+
+# Gotchas:
+1. when using resource "kubernetes_namespace" "namespace" to create namespace, it is unable to connect to the cluster, but when use local kubeconfig file and terraform applied locaaly, it is working fine. So the workaround for creating namespaces is using local executioner with a null resource 

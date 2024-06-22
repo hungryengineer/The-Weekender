@@ -5,6 +5,7 @@ resource "helm_release" "arcade-helm" {
   chart      = element(var.chart, count.index) #"redis"
   version    = element(var.chart_version, count.index) #"6.0.1"
   namespace  = element(var.namespace, count.index)
+  # depends_on = [ kubernetes_namespace.argo ]
 
 #   values = [
 #     "${file("values.yaml")}"
