@@ -1,0 +1,391 @@
+name: 'Terraform deployment'
+
+on:
+  workflow_dispatch:
+    inputs:
+      Release based deployment:
+        required: true
+        description: 'Release tag to checkout'
+        # default: 'master'
+
+  # push:
+  #   branches: [ "pre-master" ] 
+  # pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  ##########################checkov scan#############################
+  checkov:
+    permissions:
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      actions: read 
+      
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+        # with:
+        #   ref: 'v1.0.15'
+
+      - name: Checkov GitHub Action
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          # This will add both a CLI output to the console and create a results.sarif file
+          directory: devsecops_x_arcade_game/Terraform_configuration/env
+          quiet: true # optional: display only failed checks
+          output_format: cli,sarif
+          output_file_path: console,results.sarif
+          framework: terraform # optional: run only on a specific infrastructure {cloudformation,terraform,kubernetes,all}
+          soft_fail: true # optional: do not return an error code if there are failed checks
+
+        
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v2
+        
+        # Results are generated only on a success or failure
+        # this is required since GitHub by default won't run the next step
+        # when the previous one has failed. Security checks that do not pass will 'fail'.
+        # Or 'soft_fail: true' to checkov.
+        if: success() || failure()
+        with:
+          sarif_file: results.sarif
+
+########################network deployment############################
+  terraform-network-deployment:
+    name: 'Terraform-network'
+    needs: [checkov]
+    runs-on: ubuntu-latest
+    environment: playground
+    
+    env:       
+      working-directory-network: devsecops_x_arcade_game/Terraform_configuration/env/network
+      TF_CLOUD_ORGANIZATION: "anshuman-test-org"
+      TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
+      TF_WORKSPACE: "arcade-network"
+      CONFIG_DIRECTORY: "./"
+
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    # - name: Set up environment variables
+    #   run: |
+    #       echo "AWS_ACCESS_KEY_ID=your-access-key-id" >> ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #       echo "AWS_SECRET_ACCESS_KEY=your-secret-access-key" >> ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    
+    # Repo checkout
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    # Aws IAM auth
+    - name: Configure AWS Credentials Action For GitHub Actions
+      uses: aws-actions/configure-aws-credentials@v1-node16
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-south-1
+
+    # Install Terraform
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+    # Terraform init
+    - name: Terraform Init
+      run: terraform init
+      working-directory: ${{ env.working-directory-network }}
+
+
+    # Terraform plan
+    - name: Terraform Plan
+      run: terraform plan -input=false 
+      working-directory: ${{ env.working-directory-network}}
+
+    # Exit Action on Plan Failure
+    - name: 'Terraform Plan Status'
+      if: steps.plan.outcome == 'failure'
+      run: exit 1
+      working-directory: ${{ env.working-directory-network }}
+
+    # Terraform apply
+    - name: Terraform Apply
+      # if: github.ref == 'refs/heads/"pre-master"' && github.event_name == 'push'
+      run: terraform apply -auto-approve -input=false 
+      working-directory: ${{ env.working-directory-network }}
+
+#########################IAM deployment############################
+
+  terraform-iam-deployment:
+    name: 'Terraform-iam'
+    needs: [checkov]
+    runs-on: ubuntu-latest
+    environment: playground
+    
+    env:       
+      working-directory-iam: devsecops_x_arcade_game/Terraform_configuration/env/iam
+      TF_CLOUD_ORGANIZATION: "anshuman-test-org"
+      TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
+      TF_WORKSPACE: "arcade-iam"
+      CONFIG_DIRECTORY: "./"
+
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    # - name: Set up environment variables
+    #   run: |
+    #       echo "AWS_ACCESS_KEY_ID=your-access-key-id" >> ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #       echo "AWS_SECRET_ACCESS_KEY=your-secret-access-key" >> ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    
+    # Repo checkout
+    - name: Checkout
+      uses: actions/checkout@v4
+      # with:
+      #   ref: 'v1.0.15'
+
+
+    # Aws IAM auth
+    - name: Configure AWS Credentials Action For GitHub Actions
+      uses: aws-actions/configure-aws-credentials@v1-node16
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-south-1
+
+    # Install Terraform
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+    # Terraform init
+    - name: Terraform Init
+      run: terraform init
+      working-directory: ${{ env. working-directory-iam }}
+
+
+    # Terraform plan
+    - name: Terraform Plan
+      run: terraform plan -input=false
+      working-directory: ${{ env.working-directory-iam }}
+
+    # Exit Action on Plan Failure
+    - name: 'Terraform Plan Status'
+      if: steps.plan.outcome == 'failure'
+      run: exit 1
+      working-directory: ${{ env.working-directory-iam }}
+    
+    # Terraform apply
+    - name: Terraform Apply
+      # if: github.ref == 'refs/heads/"pre-master"' && github.event_name == 'push'
+      run: terraform apply -auto-approve -input=false
+      working-directory: ${{ env.working-directory-iam }}
+
+##########################k8s deployment##############################
+
+  terraform-k8s-deployment:
+    name: 'Terraform-k8s'
+    needs: [checkov, terraform-network-deployment, terraform-iam-deployment]
+    runs-on: ubuntu-latest
+    environment: playground
+    
+    env:       
+      working-directory-k8s: devsecops_x_arcade_game/Terraform_configuration/env/k8s
+      TF_CLOUD_ORGANIZATION: "anshuman-test-org"
+      TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
+      TF_WORKSPACE: "arcade-k8s"
+      CONFIG_DIRECTORY: "./"
+
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    # - name: Set up environment variables
+    #   run: |
+    #       echo "AWS_ACCESS_KEY_ID=your-access-key-id" >> ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #       echo "AWS_SECRET_ACCESS_KEY=your-secret-access-key" >> ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    
+    # Repo checkout
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    # Aws IAM auth
+    - name: Configure AWS Credentials Action For GitHub Actions
+      uses: aws-actions/configure-aws-credentials@v1-node16
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-south-1
+
+    # Install Terraform
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+    # Terraform init
+    - name: Terraform Init
+      run: terraform init
+      working-directory: ${{ env.working-directory-k8s }}
+
+
+    # Terraform plan
+    - name: Terraform Plan
+      run: terraform plan -input=false 
+      working-directory: ${{ env.working-directory-k8s }}
+
+    # Exit Action on Plan Failure
+    - name: 'Terraform Plan Status'
+      if: steps.plan.outcome == 'failure'
+      run: exit 1
+      working-directory: ${{ env.working-directory-k8s }}
+    
+    # Terraform apply
+    - name: Terraform Apply
+      # if: github.ref == 'refs/heads/"pre-master"' && github.event_name == 'push'
+      run: terraform apply -auto-approve -input=false 
+      working-directory: ${{ env.working-directory-k8s }}
+
+##########################kubernetes_namespace deployment##############################
+
+  terraform-kubernetes_namespace-deployment:
+    name: 'Terraform-kubernetes_namespace'
+    needs: [checkov, terraform-network-deployment, terraform-iam-deployment, terraform-k8s-deployment]
+    runs-on: ubuntu-latest
+    environment: playground
+    
+    env:       
+      working-directory-kubernetes_namespace : devsecops_x_arcade_game/Terraform_configuration/env/kubernetes_namespace
+      TF_CLOUD_ORGANIZATION: "anshuman-test-org"
+      TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
+      TF_WORKSPACE: "arcade-kubernetes_workspace"
+      CONFIG_DIRECTORY: "./"
+
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    # - name: Set up environment variables
+    #   run: |
+    #       echo "AWS_ACCESS_KEY_ID=your-access-key-id" >> ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #       echo "AWS_SECRET_ACCESS_KEY=your-secret-access-key" >> ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    
+    # Repo checkout
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    # Aws IAM auth
+    - name: Configure AWS Credentials Action For GitHub Actions
+      uses: aws-actions/configure-aws-credentials@v1-node16
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-south-1
+
+    # Install Terraform
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+    # Terraform init
+    - name: Terraform Init
+      run: terraform init
+      working-directory: ${{ env.working-directory-kubernetes_namespace }}
+
+
+    # Terraform plan
+    - name: Terraform Plan
+      run: terraform plan -input=false 
+      working-directory: ${{ env.working-directory-kubernetes_namespace }}
+
+    # Exit Action on Plan Failure
+    - name: 'Terraform Plan Status'
+      if: steps.plan.outcome == 'failure'
+      run: exit 1
+      working-directory: ${{ env.working-directory-kubernetes_namespace }}
+    
+    # Terraform apply
+    - name: Terraform Apply
+      # if: github.ref == 'refs/heads/"pre-master"' && github.event_name == 'push'
+      run: terraform apply -auto-approve -input=false 
+      working-directory: ${{ env.working-directory-kubernetes_namespace }}
+
+
+##########################helm deployment##############################
+
+  terraform-helm-deployment:
+    name: 'Terraform-helm'
+    needs: [terraform-k8s-deployment, terraform-kubernetes_namespace-deployment]
+    runs-on: ubuntu-latest
+    environment: playground
+    
+    env:       
+      working-directory-helm: devsecops_x_arcade_game/Terraform_configuration/env/helm
+      TF_CLOUD_ORGANIZATION: "anshuman-test-org"
+      TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
+      TF_WORKSPACE: "arcade-helm"
+      CONFIG_DIRECTORY: "./"
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+    # - name: Set up environment variables
+    #   run: |
+    #       echo "AWS_ACCESS_KEY_ID=your-access-key-id" >> ${{ secrets.AWS_ACCESS_KEY_ID }}
+    #       echo "AWS_SECRET_ACCESS_KEY=your-secret-access-key" >> ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    
+    # Repo checkout
+    - name: Checkout
+      uses: actions/checkout@v3
+
+    # Aws IAM auth
+    - name: Configure AWS Credentials Action For GitHub Actions
+      uses: aws-actions/configure-aws-credentials@v1-node16
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ap-south-1
+
+    # Install Terraform
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+
+    # Terraform init
+    - name: Terraform Init
+      run: terraform init
+      working-directory: ${{ env.working-directory-helm }}
+
+
+    # Terraform plan
+    - name: Terraform Plan
+      run: terraform plan -input=false 
+      working-directory: ${{ env.working-directory-helm }}
+
+    # Exit Action on Plan Failure
+    - name: 'Terraform Plan Status'
+      if: steps.plan.outcome == 'failure'
+      run: exit 1
+      working-directory: ${{ env.working-directory-helm }}
+    
+    # Terraform apply
+    - name: Terraform Apply
+      # if: github.ref == 'refs/heads/"pre-master"' && github.event_name == 'push'
+      run: terraform apply -auto-approve -input=false 
+      working-directory: ${{ env.working-directory-helm }}

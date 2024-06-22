@@ -1,0 +1,127 @@
+name: 'Arcade Application deployment'
+
+on:  
+  push:
+    branches: [ "pre-master" ]
+
+permissions: write-all  
+    # contents: write
+    # pull-requests: write
+    # repository-projects: write
+
+jobs:
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3 
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+
+  build-and-publish-latest: 
+        runs-on: ubuntu-latest
+        needs: [sonarcloud]
+        if: github.ref == 'refs/heads/pre-master' # Running this job only for pre-master branch
+
+        steps:
+        - uses: actions/checkout@v2 # Checking out the repo 
+
+        - name: Build and Publish latest Docker image
+          uses: DrSkunk/gp-docker-action@1.1.9    
+          with:
+            github-token: ${{ secrets.GITHUB_TOKEN }} # Provide GITHUB_TOKEN to login into the GitHub Packages
+            image-name: arcade-app-image # Provide only Docker image name, tag will be automatically set to latest
+            dockerfile: ./devsecops_x_arcade_game/Application/snake_game/Dockerfile
+            image-tag: ${{github.run_number}}
+
+
+        - name: Run Trivy vulnerability scanner
+          uses: aquasecurity/trivy-action@7b7aa264d83dc58691451798b4d117d53d21edfe
+          with:
+              image-ref: 'ghcr.io/hungryengineer/the-weekender/arcade-app-image:${{ github.run_number }}'
+              format: 'template'
+              template: '@/contrib/sarif.tpl'
+              output: 'trivy-results.sarif'
+              severity: 'CRITICAL,HIGH'
+    
+        - name: Upload Trivy scan results to GitHub Security tab
+          uses: github/codeql-action/upload-sarif@v2
+          with:
+             sarif_file: 'trivy-results.sarif'
+
+  deploy:
+              runs-on: ubuntu-latest
+              needs: [build-and-publish-latest]
+      
+              steps:
+              - uses: actions/checkout@v2
+      
+              - name: AWS Credentials
+                uses: aws-actions/configure-aws-credentials@v1
+                with:
+                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                  aws-region: ap-south-1
+
+              # - name: Set up Helm
+              #   uses: azure/setup-helm@v1
+          
+              # - name: Authenticate with GitHub Packages
+              #   run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          
+              # - name: Pull Docker image from GitHub Packages
+              #   run: docker pull ghcr.io/hungryengineer/the-weekender/arcade-app-image:${{ github.run_number }}
+      
+              - name: helm deploy
+                uses: bitovi/github-actions-deploy-eks-helm@v1.2.9
+                with:
+                  aws-access-key-id: ${{ secrets.AWS_ACCESS__KEY_ID }}
+                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                  aws-region: ap-south-1
+                  cluster-name: arcade-eks
+                  config-files: ./devsecops_x_arcade_game/Application/arcade-helm/values.yaml
+                  chart-path: ./devsecops_x_arcade_game/Application/arcade-helm
+                  version: ${{ github.run_number }}
+                  namespace: arcade
+                  name: arcade-release
+      
+
+  # deploy: 
+  #       runs-on: ubuntu-latest 
+  #       needs: [build-and-publish-latest]
+
+  #       steps:
+  #       - uses: actions/checkout@v2      
+ 
+  #       - name: AWS Credentials 
+  #         uses: aws-actions/configure-aws-credentials@v1
+  #         with:
+  #           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+  #           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  #           aws-region: ap-south-1 
+
+  #       - name: Set up kubectl
+  #         uses: azure/k8s-set-context@v1
+  #         with:
+  #             kubeconfig: ${{ secrets.KUBE_CONFIG_DATA }}
+          
+  #       - name: Set up Helm
+  #         uses: azure/setup-helm@v1
+          
+  #       - name: Authenticate with GitHub Packages
+  #         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          
+  #       - name: Pull Docker image from GitHub Packages
+  #         run: docker pull ghcr.io/hungryengineer/the-weekender/arcade-app-image:${{ github.run_number }}
+          
+  #       - name: Deploy Helm chart
+  #         run: |
+  #             helm upgrade --install arcade-release ./devsecops_x_arcade_game/Application/arcade-helm \
+  #             --set image.repository=ghcr.io/hungryengineer/the-weekender \
+  #             --set image.tag=arcade-app-image:${{ github.run_number }}
