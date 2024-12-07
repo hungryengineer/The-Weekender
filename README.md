@@ -1,7 +1,7 @@
 # The-Weekender
 This repository contains the DevOps projects which closely mimic production grade features that I undertake on weekends as a hobby.
 
-This is an end to end  DevSecOps implementation with below components:
+This is an end to end  DevSecOps implementation with below components: 
 
 1. Application code: classic snake game built on python
 i) Application code *
