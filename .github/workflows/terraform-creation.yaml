@@ -1,16 +1,16 @@
 name: 'Terraform deployment'
 
 on:
-  workflow_dispatch:
-    inputs:
-      Release based deployment:
-        required: true
-        description: 'Release tag to checkout'
-        # default: 'master'
+  # workflow_dispatch:
+  #   inputs:
+  #     Release based deployment:
+  #       required: true
+  #       description: 'Release tag to checkout'
+  #       # default: 'master'
 
-  # push:
-  #   branches: [ "pre-master" ] 
-  # pull_request:
+  push:
+    branches: [ "elastic-poc" ] 
+  pull_request:
 
 permissions:
   contents: read
